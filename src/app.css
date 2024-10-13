@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'spiegel';
+	src: url('https://lolstatic-a.akamaihd.net/webfonts/live/fonts/spiegel/Spiegel-Bold.woff');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'spiegel';
+	src: url('https://lolstatic-a.akamaihd.net/webfonts/live/fonts/spiegel/Spiegel-Regular.woff');
+}
+
+@font-face {
+	font-family: 'beaufort';
+	src: url('https://lolstatic-a.akamaihd.net/webfonts/live/fonts/beaufort/BeaufortforLOL-Bold.woff');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'beaufort';
+	src: url('https://lolstatic-a.akamaihd.net/webfonts/live/fonts/beaufort/BeaufortforLOL-Regular.woff');
+}
+
+html {
+	font-family: 'spiegel';
+	color: theme(colors.gold.1);
+	background-color: theme(colors.hextech_black);
+}

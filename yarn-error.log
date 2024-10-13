@@ -1,0 +1,60 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\canal\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add -D @xpd/tailwind-3dtransforms
+
+PATH: 
+  C:\Users\canal\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\canal\bin;D:\Ruby33-x64\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Users\canal\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Python27;C:\Python27\Scripts;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin;C:\MinGW\bin;C:\Program Files\dotnet;C:\webdrivers;C:\src\flutter\bin;C:\Users\canal\AppData\Local\Pub\Cache\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\GitHub CLI;C:\php;C:\ProgramData\chocolatey\bin;C:\Program Files\Go\bin;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\canal\.zvm\bin;C:\Users\canal\.zvm\self;D:\terraform;D:\doctl;C:\Program Files\Amazon\AWSCLIV2;C:\Users\canal\AppData\Local\pnpm;C:\Users\canal\scoop\shims;C:\Users\canal\AppData\Local\Programs\Python\Python39\Scripts;C:\Users\canal\AppData\Local\Programs\Python\Python39;C:\Users\canal\.cargo\bin;C:\Users\canal\AppData\Local\Microsoft\WindowsApps;C:\Users\canal\AppData\Roaming\npm;C:\Users\canal\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\vtex\bin;C:\Program Files\Java\jdk-17.0.3.1\bin;C:\Program Files\PostgreSQL\14\bin;C:\Users\canal\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\canal\.dotnet\tools;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2022.1\bin;C:\src\flutter\bin;C:\Users\canal\.deno\bin;C:\Users\canal\.dotnet\tools;C:\Users\canal\AppData\Local\ComposerSetup\bin;C:\Users\canal\AppData\Roaming\Composer\vendor\bin;C:\Users\canal\go\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2023.3.5\bin;C:\Program Files\Neovim\bin;C:\Users\canal\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\canal\.zvm\self;C:\Users\canal\.zvm\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.1.4\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\canal\.rvm\bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  18.18.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'D:\Prog\pog\pog-ranking-v2\node_modules\@esbuild\win32-x64\esbuild.exe'
+
+npm manifest: 
+  {
+  	"name": "pog-ranking-v2",
+  	"version": "0.0.1",
+  	"private": true,
+  	"scripts": {
+  		"dev": "vite dev",
+  		"build": "vite build",
+  		"preview": "vite preview",
+  		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+  		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+  		"lint": "prettier --check . && eslint .",
+  		"format": "prettier --write ."
+  	},
+  	"devDependencies": {
+  		"@sveltejs/adapter-auto": "^3.0.0",
+  		"@sveltejs/kit": "^2.0.0",
+  		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+  		"@types/eslint": "^9.6.0",
+  		"autoprefixer": "^10.4.20",
+  		"eslint": "^9.0.0",
+  		"eslint-config-prettier": "^9.1.0",
+  		"eslint-plugin-svelte": "^2.36.0",
+  		"globals": "^15.0.0",
+  		"postcss": "^8.4.47",
+  		"prettier": "^3.1.1",
+  		"prettier-plugin-svelte": "^3.1.2",
+  		"svelte": "^4.2.7",
+  		"svelte-check": "^4.0.0",
+  		"tailwindcss": "^3.4.13",
+  		"typescript": "^5.0.0",
+  		"typescript-eslint": "^8.0.0",
+  		"vite": "^5.0.3"
+  	},
+  	"type": "module"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
