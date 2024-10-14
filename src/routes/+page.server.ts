@@ -30,7 +30,12 @@ export async function load() {
 	for (const player of playersMock) {
 		const league = await getSummonerLeague(player.id);
 
-		if (!Array.isArray(league)) continue;
+		if (!Array.isArray(league)) {
+			ranking.push({
+				...player,
+				league: []
+			});
+		}
 
 		ranking.push({
 			...player,
