@@ -4,8 +4,6 @@
 	export let info: PlayerInfo;
 	export let size: 'sm' | 'lg' = 'sm';
 
-	console.log(info);
-
 	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
 
 	let hovering: boolean = false;

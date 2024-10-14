@@ -1,6 +1,7 @@
 import { RIOT_BR1_BASE_API_URL, RIOT_API_KEY } from '$env/static/private';
 import { LEAGUE_API, playersMock } from '../sdk/constants';
 import { comparePlayers } from '../sdk/utils';
+import type { League } from '../typings';
 
 async function fetchSummonerLeagues(summonerId: string) {
 	const response = await fetch(`${RIOT_BR1_BASE_API_URL}/${LEAGUE_API}/${summonerId}`, {
@@ -12,13 +13,14 @@ async function fetchSummonerLeagues(summonerId: string) {
 	return data;
 }
 
-async function getSummonerLeague(summonerId: string) {
+async function getSummonerLeague(summonerId: string): Promise<League[]> {
 	try {
 		const leagues = await fetchSummonerLeagues(summonerId);
 
 		return leagues;
 	} catch (error) {
 		console.error(`error: ${error}`);
+		return [];
 	}
 }
 
