@@ -29,9 +29,6 @@ export interface League {
 	wins: number;
 }
 export interface PlayerInfo {
-	id: string;
-	puuid: string;
-	accountId: string;
 	gameName: string;
 	tagLine: string;
 	league?: League[];
