@@ -35,6 +35,8 @@ export async function load() {
 				...player,
 				league: []
 			});
+
+      continue;
 		}
 
 		ranking.push({
