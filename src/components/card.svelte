@@ -2,6 +2,11 @@
 	import type { PlayerInfo } from '../typings';
 
 	export let info: PlayerInfo;
+	export let size: 'sm' | 'lg' = 'sm';
+
+	console.log(info);
+
+	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
 
 	let hovering: boolean = false;
 	let element: HTMLDivElement;
@@ -33,7 +38,12 @@
 	on:mouseleave={onMouseLeave}
 >
 	<div class="transform-style-3d h-full">
-		<img class="w-full h-full object-cover p-1" src={info.image} alt={info.name} />
+		<img
+			class="w-full h-full object-cover p-1"
+			src={`/criminosos/${info.gameName.toLowerCase()}.png`}
+			onerror={`this.src = '/criminosos/fallback.png'`}
+			alt={info.gameName}
+		/>
 		<div
 			class="bg-gradient-to-t from-black/80 absolute w-full h-full top-0 left-0 pointer-events-none z-[1]"
 		/>
@@ -41,14 +51,34 @@
 		<div
 			class="w-full absolute bottom-4 z-10 flex flex-col items-center justify-center transform-style-3d [&>*]:transform-style-3d"
 		>
-			<div class="translate-z-10 transform transition-all duration-200">
-				<img class="w-40" alt="elo" src={`/emblems/${info.elo.toLowerCase()}.png`} />
+			<div
+				class="translate-z-10 transform transition-all duration-200 flex justify-center items-center"
+			>
+				<img
+					class={`${size === 'sm' ? 'w-1/3' : 'w-2/3'}`}
+					alt="elo"
+					src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`}
+				/>
+
+				<span
+					class="font-beaufort font-semibold text-gold-1 text-2xl transition-all duration-200 absolute -mt-12"
+					>{soloQueueData?.rank}</span
+				>
 			</div>
 
 			<span
-				class="font-beaufort font-semibold text-gold-1 text-2xl -mt-6 translate-z-4 transform transition-all duration-200"
-				>{info.name}</span
+				class="font-beaufort font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
+				>{info.gameName}</span
 			>
+
+			<div class="flex flex-col">
+				<div class="flex">
+					<!-- <span
+						class="font-beaufort font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
+						>{soloQueueData?.tier}</span
+					> -->
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
