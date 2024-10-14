@@ -3,6 +3,7 @@ export const SUMMONER_API = 'lol/summoner/v4/summoners/by-puuid';
 export const LEAGUE_API = 'lol/league/v4/entries/by-summoner';
 
 export const TIER_ORDER = [
+	'UNRANKED',
 	'IRON',
 	'BRONZE',
 	'SILVER',
@@ -15,7 +16,7 @@ export const TIER_ORDER = [
 	'CHALLENGER'
 ];
 
-export const RANK_ORDER = ['IV', 'III', 'II', 'I'];
+export const RANK_ORDER = ['UNRANKED', 'IV', 'III', 'II', 'I'];
 
 export const playersMock = [
 	{

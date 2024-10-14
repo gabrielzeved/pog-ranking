@@ -1,7 +1,7 @@
 import { RIOT_BR1_BASE_API_URL, RIOT_API_KEY } from '$env/static/private';
 import { LEAGUE_API, playersMock } from '../sdk/constants';
 import { comparePlayers } from '../sdk/utils';
-import type { League } from '../typings';
+import type { League, PlayerInfo } from '../typings';
 
 async function fetchSummonerLeagues(summonerId: string) {
 	const response = await fetch(`${RIOT_BR1_BASE_API_URL}/${LEAGUE_API}/${summonerId}`, {
@@ -25,7 +25,7 @@ async function getSummonerLeague(summonerId: string): Promise<League[]> {
 }
 
 export async function load() {
-	const ranking = [];
+	const ranking: PlayerInfo[] = [];
 
 	for (const player of playersMock) {
 		const league = await getSummonerLeague(player.id);
@@ -33,10 +33,25 @@ export async function load() {
 		if (!Array.isArray(league)) {
 			ranking.push({
 				...player,
-				league: []
+				league: [
+					{
+						leaguePoints: 0,
+						wins: 0,
+						losses: 0,
+						rank: 'UNRANKED',
+						tier: 'UNRANKED',
+						queueType: 'RANKED_SOLO_5x5',
+						veteran: false,
+						freshBlood: false,
+						hotStreak: false,
+						inactive: true,
+						leagueId: '',
+						summonerId: ''
+					}
+				]
 			});
 
-      continue;
+			continue;
 		}
 
 		ranking.push({
