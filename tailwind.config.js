@@ -13,6 +13,13 @@ export default {
 			fontFamily: {
 				spiegel: ['spiegel'],
 				beaufort: ['beaufort']
+			},
+			keyframes: {
+				rotate: {
+					to: {
+						transform: 'translate(-50%, -50%) rotate(1turn)'
+					}
+				}
 			}
 		}
 	},

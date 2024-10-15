@@ -28,13 +28,20 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
+
 <div
 	bind:this={element}
-	class={`card group to-black/10 perspective-600 transform-style-3d [&>*]:transform-style-3d ${$$props.class}`}
+	class={`card group to-black/10 perspective-600 transform-style-3d [&>*]:transform-style-3d ${$$props.class} relative overflow-hidden`}
 	on:mouseenter={onMouseEnter}
 	on:mousemove={handleMouseMove}
 	on:mouseleave={onMouseLeave}
 >
+	{#if size === 'lg'}
+		<div
+			class="absolute w-[9999px] h-[9999px] -z-2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-no-repeat bg-[conic-gradient(rgba(0,0,0,0),gold,rgba(0,0,0,0)_25%)] animate-[rotate_4s_linear_infinite]"
+		></div>
+	{/if}
+
 	<div class="transform-style-3d h-full">
 		<img
 			class="w-full h-full object-cover p-1"
@@ -53,7 +60,7 @@
 				class="translate-z-10 transform transition-all duration-200 flex justify-center items-center"
 			>
 				<img
-					class={`${size === 'sm' ? 'w-1/3' : 'w-2/3'}`}
+					class={`${size === 'sm' ? 'w-1/3' : 'w-1/3'}`}
 					alt="elo"
 					src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`}
 				/>
@@ -68,6 +75,14 @@
 				class="font-beaufort font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
 				>{info.gameName}</span
 			>
+
+			<span class="font-spiegel translate-z-4 transform transition-all duration-200">
+				{soloQueueData?.leaguePoints} LP
+			</span>
+
+      <span class="font-spiegel text-xs">
+        {soloQueueData?.wins}V/{soloQueueData?.losses}D
+      </span>
 
 			<div class="flex flex-col">
 				<div class="flex">

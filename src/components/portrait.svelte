@@ -27,5 +27,8 @@
 		<span class="font-spiegel">
 			{soloQueueData?.leaguePoints} LP
 		</span>
+		<span class="font-spiegel text-xs">
+			{soloQueueData?.wins}V/{soloQueueData?.losses}D
+		</span>
 	</div>
 </div>
