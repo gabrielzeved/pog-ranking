@@ -1,5 +1,4 @@
 export type Tier =
-	| 'UNRANKED'
 	| 'IRON'
 	| 'SILVER'
 	| 'GOLD'
@@ -10,26 +9,16 @@ export type Tier =
 	| 'GRANDMASTER'
 	| 'CHALLENGER';
 
-export type Rank = 'UNRANKED' | 'IV' | 'III' | 'II' | 'I';
-
-export type QueueType = 'RANKED_SOLO_5x5' | 'RANKED_FLEX_SR';
-
-export interface League {
-	freshBlood: boolean;
-	hotStreak: boolean;
-	inactive: boolean;
-	leagueId: string;
-	leaguePoints: number;
-	losses: number;
-	queueType: QueueType;
-	rank: Rank;
-	summonerId: string;
-	tier: Tier;
-	veteran: boolean;
-	wins: number;
-}
+export type Rank = 'IV' | 'III' | 'II' | 'I';
 export interface PlayerInfo {
+	id: string;
 	gameName: string;
 	tagLine: string;
-	league?: League[];
+	tier: Tier;
+	rank: Rank;
+	wins: number;
+	losses: number;
+	leaguePoints: number;
+	createdAt: string;
+	updatedAt: string;
 }

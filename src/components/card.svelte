@@ -6,8 +6,6 @@
 	export let info: PlayerInfo;
 	export let size: 'sm' | 'lg' = 'sm';
 
-	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
-
 	let champion = playersMock.find((player) => player.gameName === info.gameName)?.champion;
 	let container: HTMLDivElement;
 </script>
@@ -40,12 +38,12 @@
 						<img
 							class={`${size === 'sm' ? 'w-1/3' : 'w-1/3'}`}
 							alt="elo"
-							src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`}
+							src={`/emblems/${info?.tier.toLowerCase()}.png`}
 						/>
 
 						<span
 							class="font-semibold text-gold-1 text-2xl transition-all duration-200 absolute -mt-12"
-							>{soloQueueData?.rank}</span
+							>{info?.rank}</span
 						>
 					</div>
 
@@ -54,11 +52,11 @@
 					>
 
 					<span class="font-spiegel transition-all duration-200">
-						{soloQueueData?.leaguePoints} LP
+						{info?.leaguePoints} LP
 					</span>
 
 					<span class="font-spiegel text-xs">
-						{soloQueueData?.wins}V/{soloQueueData?.losses}D
+						{info?.wins}V/{info?.losses}D
 					</span>
 				</div>
 			</div>

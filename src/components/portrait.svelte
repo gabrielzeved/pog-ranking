@@ -4,17 +4,15 @@
 
 	export let info: PlayerInfo;
 
-	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
 	const wantedName = playersMock.find((player) => player.gameName === info.gameName)?.wantedName;
 
-	const wantedPrice =
-		Math.ceil(((soloQueueData?.losses ?? 0) / (soloQueueData?.wins ?? 1)) * 100) * 1000;
+	const wantedPrice = Math.ceil(((info?.losses ?? 0) / (info?.wins ?? 1)) * 100) * 1000;
 	const currencyFormatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD'
 	});
 
-	let isCriminoso = (soloQueueData?.wins ?? 0) <= (soloQueueData?.losses ?? 0);
+	let isCriminoso = (info?.wins ?? 0) <= (info?.losses ?? 0);
 </script>
 
 <div class="flip-card m-4">
@@ -31,16 +29,16 @@
 			/>
 
 			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
-				<img class="w-2/3" alt="elo" src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`} />
+				<img class="w-2/3" alt="elo" src={`/emblems/${info?.tier.toLowerCase()}.png`} />
 				<span class=" font-semibold text-gold-1 text-xl -mt-4">{info.gameName}</span>
 				<span class=" font-semibold text-gold-1 text-2xl transition-all duration-200 absolute"
-					>{soloQueueData?.rank}</span
+					>{info?.rank}</span
 				>
 				<span class="font-spiegel text-white">
-					{soloQueueData?.leaguePoints} LP
+					{info?.leaguePoints} LP
 				</span>
 				<span class={`font-spiegel text-xs ${isCriminoso ? 'text-red-500' : 'text-white'}`}>
-					{soloQueueData?.wins}V/{soloQueueData?.losses}D
+					{info?.wins}V/{info?.losses}D
 				</span>
 			</div>
 		</div>

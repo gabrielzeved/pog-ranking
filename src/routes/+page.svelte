@@ -13,9 +13,15 @@
 	<h2 class="text-4xl text-gold-4 font-bold mb-2">TOP 3</h2>
 	<img src="/decorator-hr-lg.png" alt="" class="max-w-52 m-auto mb-4" />
 	<div class="flex items-end justify-center gap-4">
-		<Card class="w-[240px]" size="sm" info={top3[1]} />
-		<Card class="w-[280px]" size="lg" info={top3[0]} />
-		<Card class="w-[240px]" size="sm" info={top3[2]} />
+		{#if top3[1]}
+			<Card class="w-[240px]" size="sm" info={top3[1]} />
+		{/if}
+		{#if top3[0]}
+			<Card class="w-[280px]" size="lg" info={top3[0]} />
+		{/if}
+		{#if top3[2]}
+			<Card class="w-[240px]" size="sm" info={top3[2]} />
+		{/if}
 	</div>
 </div>
 
