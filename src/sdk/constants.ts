@@ -24,15 +24,18 @@ export const RANK_ORDER = ['UNRANKED', 'IV', 'III', 'II', 'I'];
 export const playersMock = [
 	{
 		gameName: 'Nenemz',
-		tagLine: '3514'
+		tagLine: '3514',
+		champion: 'talon'
 	},
 	{
 		gameName: 'Dreosh',
-		tagLine: 'BR1'
+		tagLine: 'BR1',
+		champion: 'sejuani'
 	},
 	{
 		gameName: 'Kaikan',
-		tagLine: 'BR1'
+		tagLine: 'BR1',
+		champion: 'jhin'
 	},
 	{
 		gameName: 'Raizzeni',
@@ -40,7 +43,8 @@ export const playersMock = [
 	},
 	{
 		gameName: 'Neyans',
-		tagLine: '001'
+		tagLine: '001',
+		champion: 'thresh'
 	},
 	{
 		gameName: 'SrPBL',
@@ -49,20 +53,17 @@ export const playersMock = [
 	{
 		gameName: 'Kenai',
 		tagLine: 'duo',
-		wantedName: 'LELEY DO CARRO BIXO',
-		wantedPrice: '15.000.00'
+		wantedName: 'LELEY DO CARRO BIXO'
 	},
 	{
 		gameName: 'bobtheconstrutor',
 		tagLine: '1596',
-		wantedName: 'DOCTÔBOLHAS',
-		wantedPrice: '50.000.00'
+		wantedName: 'DOCTÔBOLHAS'
 	},
 	{
 		gameName: 'Arzok',
 		tagLine: 'BR1',
-		wantedName: 'PAIUBER',
-		wantedPrice: '100.000.00'
+		wantedName: 'PAIUBER'
 	},
 	{
 		gameName: 'SrSSS',

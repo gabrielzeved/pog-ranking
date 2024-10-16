@@ -1,100 +1,73 @@
 <script lang="ts">
+	import { playersMock } from '../sdk/constants';
 	import type { PlayerInfo } from '../typings';
+	import ModelViewer from './model-viewer.svelte';
 
 	export let info: PlayerInfo;
 	export let size: 'sm' | 'lg' = 'sm';
 
 	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
 
-	let hovering: boolean = false;
-	let element: HTMLDivElement;
-
-	function handleMouseMove(e: MouseEvent) {
-		const { left, top, width, height } = element.getBoundingClientRect();
-
-		const x = (e.clientX - left - width / 2) / 10;
-		const y = (e.clientY - top - height / 2) / 10;
-		element.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-	}
-
-	function onMouseEnter() {
-		hovering = true;
-	}
-
-	function onMouseLeave() {
-		hovering = false;
-		element.style.transform = `rotateY(0deg) rotateX(0deg)`;
-	}
-
+	let champion = playersMock.find((player) => player.gameName === info.gameName)?.champion;
+	let container: HTMLDivElement;
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="w-fit h-fit relative group" bind:this={container}>
+	<div
+		class="transform-style-3d perspective-1000 px-0 group-hover:px-10 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform group-hover:opacity-50 transition-all duration-500 ease-in-out"
+	>
+		<div class={`card to-black/10 ${$$props.class} overflow-hidden`}>
+			{#if size === 'lg'}
+				<div
+					class="absolute w-[9999px] h-[9999px] -z-10 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-no-repeat bg-[conic-gradient(rgba(0,0,0,0),gold,rgba(0,0,0,0)_25%)] animate-[rotate_4s_linear_infinite]"
+				/>
+			{/if}
 
-<div
-	bind:this={element}
-	class={`card group to-black/10 perspective-600 transform-style-3d [&>*]:transform-style-3d ${$$props.class} relative overflow-hidden`}
-	on:mouseenter={onMouseEnter}
-	on:mousemove={handleMouseMove}
-	on:mouseleave={onMouseLeave}
->
-	{#if size === 'lg'}
-		<div
-			class="absolute w-[9999px] h-[9999px] -z-2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-no-repeat bg-[conic-gradient(rgba(0,0,0,0),gold,rgba(0,0,0,0)_25%)] animate-[rotate_4s_linear_infinite]"
-		/>
-	{/if}
-
-	<div class="transform-style-3d h-full">
-		<img
-			class="w-full h-full object-cover p-1"
-			src={`/criminosos/${info.gameName.toLowerCase()}.png`}
-			onerror={`this.src = '/criminosos/fallback.png'`}
-			alt={info.gameName}
-		/>
-		<div
-			class="bg-gradient-to-t from-black/80 absolute w-full h-full top-0 left-0 pointer-events-none z-[1]"
-		/>
-
-		<div
-			class="w-full absolute bottom-4 z-10 flex flex-col items-center justify-center transform-style-3d [&>*]:transform-style-3d"
-		>
-			<div
-				class="translate-z-10 transform transition-all duration-200 flex justify-center items-center"
-			>
+			<div class="h-full">
 				<img
-					class={`${size === 'sm' ? 'w-1/3' : 'w-1/3'}`}
-					alt="elo"
-					src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`}
+					class="w-full h-full object-cover p-1"
+					src={`/criminosos/${info.gameName.toLowerCase()}.png`}
+					onerror={`this.src = '/criminosos/fallback.png'`}
+					alt={info.gameName}
 				/>
 
-				<span
-					class="font-beaufort font-semibold text-gold-1 text-2xl transition-all duration-200 absolute -mt-12"
-					>{soloQueueData?.rank}</span
-				>
-			</div>
+				<div
+					class="bg-gradient-to-t from-black/80 absolute w-full h-full top-0 left-0 pointer-events-none z-[1]"
+				/>
 
-			<span
-				class="font-beaufort font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
-				>{info.gameName}</span
-			>
+				<div class="w-full absolute bottom-4 z-10 flex flex-col items-center justify-center">
+					<div class="flex justify-center items-center">
+						<img
+							class={`${size === 'sm' ? 'w-1/3' : 'w-1/3'}`}
+							alt="elo"
+							src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`}
+						/>
 
-			<span class="font-spiegel translate-z-4 transform transition-all duration-200">
-				{soloQueueData?.leaguePoints} LP
-			</span>
+						<span
+							class="font-semibold text-gold-1 text-2xl transition-all duration-200 absolute -mt-12"
+							>{soloQueueData?.rank}</span
+						>
+					</div>
 
-			<span class="font-spiegel text-xs">
-				{soloQueueData?.wins}V/{soloQueueData?.losses}D
-			</span>
+					<span
+						class="font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
+						>{info.gameName}</span
+					>
 
-			<div class="flex flex-col">
-				<div class="flex">
-					<!-- <span
-						class="font-beaufort font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
-						>{soloQueueData?.tier}</span
-					> -->
+					<span class="font-spiegel translate-z-4 transform transition-all duration-200">
+						{soloQueueData?.leaguePoints} LP
+					</span>
+
+					<span class="font-spiegel text-xs">
+						{soloQueueData?.wins}V/{soloQueueData?.losses}D
+					</span>
 				</div>
 			</div>
 		</div>
 	</div>
+	{#if container && champion}
+		<ModelViewer {container} {champion} />
+	{/if}
 </div>
 
 <style lang="postcss">

@@ -5,12 +5,20 @@
 	export let info: PlayerInfo;
 
 	const soloQueueData = info.league?.find((l) => l.queueType === 'RANKED_SOLO_5x5');
-	const wantedName = playersMock.find((player) => player.gameName === info.gameName)?.wantedName
-	const wantedPrice = playersMock.find((player) => player.gameName === info.gameName)?.wantedPrice
+	const wantedName = playersMock.find((player) => player.gameName === info.gameName)?.wantedName;
+
+	const wantedPrice =
+		Math.ceil(((soloQueueData?.losses ?? 0) / (soloQueueData?.wins ?? 1)) * 100) * 1000;
+	const currencyFormatter = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD'
+	});
+
+	let isCriminoso = (soloQueueData?.wins ?? 0) <= (soloQueueData?.losses ?? 0);
 </script>
 
-<div class="flip-card m-4"> <!-- Added margin -->
-	<div class="flip-card-inner">
+<div class="flip-card m-4">
+	<div class:flip-card-inner={isCriminoso}>
 		<div class="flip-card-front">
 			<img
 				class="w-full h-full object-cover"
@@ -24,25 +32,32 @@
 
 			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
 				<img class="w-2/3" alt="elo" src={`/emblems/${soloQueueData?.tier.toLowerCase()}.png`} />
-				<span class="font-beaufort font-semibold text-gold-1 text-xl -mt-4">{info.gameName}</span>
-				<span
-					class="font-beaufort font-semibold text-gold-1 text-2xl transition-all duration-200 absolute"
+				<span class=" font-semibold text-gold-1 text-xl -mt-4">{info.gameName}</span>
+				<span class=" font-semibold text-gold-1 text-2xl transition-all duration-200 absolute"
 					>{soloQueueData?.rank}</span
 				>
 				<span class="font-spiegel text-white">
 					{soloQueueData?.leaguePoints} LP
 				</span>
-				<span class={`font-spiegel text-xs ${soloQueueData?.wins <= soloQueueData.losses ? 'text-red-500' : 'text-white'}`}>
+				<span class={`font-spiegel text-xs ${isCriminoso ? 'text-red-500' : 'text-white'}`}>
 					{soloQueueData?.wins}V/{soloQueueData?.losses}D
 				</span>
 			</div>
 		</div>
-		{#if soloQueueData?.wins <= soloQueueData?.losses}
+		{#if isCriminoso}
 			<div class="flip-card-back bgcriminoso w-full h-full">
-				<img class="absolute z-10 w-[86%] h-[44%] criminoso border-4 border-amber-950" alt="wanted" src={`/wanted/${info.gameName.toLowerCase()}.png`} />
-				<div class="flex flex-col items-center absolute z-10 bottom-[15%] left-2/4 translate-x-[-50%]">
-					<span class="text-xl text-amber-950 font-beaufort font-bold whitespace-nowrap">{wantedName}</span>
-					<span class="text-2xl text-red-600 font-beaufort font-bold">${wantedPrice}</span>
+				<img
+					class="absolute z-10 w-[86%] h-[44%] criminoso border-4 border-amber-950"
+					alt="wanted"
+					src={`/wanted/${info.gameName.toLowerCase()}.png`}
+				/>
+				<div
+					class="flex flex-col items-center absolute z-10 bottom-[15%] left-2/4 translate-x-[-50%]"
+				>
+					<span class="text-xl text-amber-950 font-bold whitespace-nowrap">{wantedName}</span>
+					<span class="text-2xl text-red-600 font-bold">
+						{currencyFormatter.format(wantedPrice)}
+					</span>
 				</div>
 			</div>
 		{/if}
@@ -52,8 +67,8 @@
 <style>
 	.flip-card {
 		perspective: 1000px;
-		width: 288px; 
-		height: 511px; 
+		width: 288px;
+		height: 511px;
 	}
 
 	.flip-card-inner {
@@ -61,7 +76,7 @@
 		width: 100%;
 		height: 100%;
 		text-align: center;
-		transition: transform 0.6s;
+		transition: transform 0.4s ease-in-out;
 		transform-style: preserve-3d;
 	}
 
@@ -69,13 +84,14 @@
 		transform: rotateY(180deg);
 	}
 
-	.flip-card-front, .flip-card-back {
+	.flip-card-front,
+	.flip-card-back {
 		position: absolute;
 		width: 100%;
 		height: 100%;
 		backface-visibility: hidden;
-		border: 1px solid gold; 
-		overflow: hidden; 
+		border: 1px solid gold;
+		overflow: hidden;
 	}
 
 	.flip-card-front {

@@ -4,9 +4,10 @@
 	import type { GLTF } from 'three/addons/loaders/GLTFLoader.js';
 	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 	import { CHAMPIONS_SCALE, DEGREE_TO_RADIANS } from '../sdk/constants';
-	import Portrait from './portrait.svelte';
 
-	let container: HTMLDivElement;
+	export let container: HTMLDivElement;
+	export let champion: string;
+
 	let canvas: HTMLDivElement;
 
 	let scene: THREE.Scene;
@@ -34,8 +35,6 @@
 	}
 
 	function loadModel() {
-		const champion = 'thresh';
-
 		loader.load(
 			`/models/${champion}.glb`,
 			function (gltf) {
@@ -129,35 +128,7 @@
 	});
 </script>
 
-<div class="w-fit h-fit relative group" bind:this={container}>
-	<div
-		class="transform-style-3d perspective-1000 px-0 group-hover:px-28 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform group-hover:opacity-50 transition-all duration-500 ease-in-out"
-	>
-		<Portrait
-			info={{
-				gameName: 'Dreosh',
-				tagLine: 'BR1',
-				league: [
-					{
-						leagueId: 'a2376c03-0ea1-459b-9a09-dceccf68e7ab',
-						queueType: 'RANKED_SOLO_5x5',
-						tier: 'DIAMOND',
-						rank: 'IV',
-						summonerId: 'AnrTZbGMb2spi4lNT1SocwpfVyESVCOJ2U3QnrpDkmQwDw',
-						leaguePoints: 4,
-						wins: 28,
-						losses: 23,
-						veteran: false,
-						inactive: false,
-						freshBlood: true,
-						hotStreak: false
-					}
-				]
-			}}
-		/>
-	</div>
-	<div
-		class="absolute top-0 left-0 pointer-events-none z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-0 group-hover:delay-200"
-		bind:this={canvas}
-	></div>
-</div>
+<div
+	class="absolute top-0 left-0 pointer-events-none z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-0 group-hover:delay-200"
+	bind:this={canvas}
+></div>
