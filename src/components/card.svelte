@@ -39,7 +39,7 @@
 	{#if size === 'lg'}
 		<div
 			class="absolute w-[9999px] h-[9999px] -z-2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-no-repeat bg-[conic-gradient(rgba(0,0,0,0),gold,rgba(0,0,0,0)_25%)] animate-[rotate_4s_linear_infinite]"
-		></div>
+		/>
 	{/if}
 
 	<div class="transform-style-3d h-full">
@@ -80,9 +80,9 @@
 				{soloQueueData?.leaguePoints} LP
 			</span>
 
-      <span class="font-spiegel text-xs">
-        {soloQueueData?.wins}V/{soloQueueData?.losses}D
-      </span>
+			<span class="font-spiegel text-xs">
+				{soloQueueData?.wins}V/{soloQueueData?.losses}D
+			</span>
 
 			<div class="flex flex-col">
 				<div class="flex">

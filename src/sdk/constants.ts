@@ -3,6 +3,8 @@ export const SUMMONER_API = 'lol/summoner/v4/summoners/by-puuid';
 export const LEAGUE_API = 'lol/league/v4/entries/by-summoner';
 export const ACCOUNT_API = 'riot/account/v1/accounts/by-riot-id'; // /gameName/tagLine
 
+export const DEGREE_TO_RADIANS = 0.01745329251; // π/180;
+
 export const TIER_ORDER = [
 	'UNRANKED',
 	'IRON',
@@ -61,3 +63,8 @@ export const playersMock = [
 		tagLine: 'BR1'
 	}
 ];
+
+export const CHAMPIONS_SCALE: Record<string, number> = {
+	jhin: 1.5,
+	talon: 1.5
+};
