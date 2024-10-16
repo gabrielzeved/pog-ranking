@@ -12,7 +12,8 @@ export default {
 			},
 			fontFamily: {
 				spiegel: ['spiegel'],
-				beaufort: ['beaufort']
+				beaufort: ['beaufort'],
+				bronco: ['bronco']
 			},
 			keyframes: {
 				rotate: {
