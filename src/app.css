@@ -24,6 +24,11 @@
 	src: url('https://lolstatic-a.akamaihd.net/webfonts/live/fonts/beaufort/BeaufortforLOL-Regular.woff');
 }
 
+@font-face {
+	font-family: 'bronco';
+	src: url('/static/BroncoPersonalUse.ttf');
+}
+
 html {
 	font-family: 'spiegel';
 	color: theme(colors.gold.1);

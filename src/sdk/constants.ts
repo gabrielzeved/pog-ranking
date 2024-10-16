@@ -48,15 +48,21 @@ export const playersMock = [
 	},
 	{
 		gameName: 'Kenai',
-		tagLine: 'duo'
+		tagLine: 'duo',
+		wantedName: 'LELEY DO CARRO BIXO',
+		wantedPrice: '15.000.00'
 	},
 	{
 		gameName: 'bobtheconstrutor',
-		tagLine: '1596'
+		tagLine: '1596',
+		wantedName: 'DOCTÔBOLHAS',
+		wantedPrice: '50.000.00'
 	},
 	{
 		gameName: 'Arzok',
-		tagLine: 'BR1'
+		tagLine: 'BR1',
+		wantedName: 'PAIUBER',
+		wantedPrice: '100.000.00'
 	},
 	{
 		gameName: 'SrSSS',
