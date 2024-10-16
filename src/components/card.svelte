@@ -49,12 +49,11 @@
 						>
 					</div>
 
-					<span
-						class="font-semibold text-gold-1 text-2xl translate-z-4 transform transition-all duration-200"
+					<span class="font-semibold text-gold-1 text-2xl transition-all duration-200"
 						>{info.gameName}</span
 					>
 
-					<span class="font-spiegel translate-z-4 transform transition-all duration-200">
+					<span class="font-spiegel transition-all duration-200">
 						{soloQueueData?.leaguePoints} LP
 					</span>
 
