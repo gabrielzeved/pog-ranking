@@ -35,7 +35,7 @@ export const playersMock = [
 	{
 		gameName: 'Kaikan',
 		tagLine: 'BR1',
-		champion: 'jhin'
+		champion: 'lucian'
 	},
 	{
 		gameName: 'Raizzeni',
