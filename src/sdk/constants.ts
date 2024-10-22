@@ -48,7 +48,8 @@ export const playersMock = [
 	},
 	{
 		gameName: 'SrPBL',
-		tagLine: 'BR1'
+		tagLine: 'BR1',
+		champion: 'volibear'
 	},
 	{
 		gameName: 'Kenai',
