@@ -37,3 +37,29 @@ html {
 	max-width: 100vw;
 	max-height: 100vh;
 }
+
+::selection {
+	color: white;
+	background: #c89b3c;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #c89b3c;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #8F6F28;
+}
