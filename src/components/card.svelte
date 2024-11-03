@@ -10,9 +10,9 @@
 	let container: HTMLDivElement;
 </script>
 
-<div class="w-fit h-fit relative group" bind:this={container}>
+<div class="relative group" bind:this={container}>
 	<div
-		class="transform-style-3d perspective-1000 px-0 group-hover:px-10 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform group-hover:opacity-50 transition-all duration-500 ease-in-out"
+		class="transform-style-3d  px-0 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform transition-all duration-500 ease-in-out"
 	>
 		<div class={`card to-black/10 ${$$props.class} overflow-hidden`}>
 			{#if size === 'lg'}
@@ -71,6 +71,8 @@
 	.card {
 		aspect-ratio: 0.71856287425;
 		position: relative;
+		background: #3f3f3f50;
+		border-radius: 2px;
 	}
 	.card::before {
 		content: '';

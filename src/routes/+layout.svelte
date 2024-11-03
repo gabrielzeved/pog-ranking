@@ -1,11 +1,13 @@
 <script>
 	import '../app.css';
+	import Footer from '../components/footer.svelte';
 	import Header from '../components/header.svelte';
 </script>
 
 <Header />
 <div class="overlay"></div>
 <slot />
+<Footer />
 
 <style global lang="postcss">
 	.overlay {

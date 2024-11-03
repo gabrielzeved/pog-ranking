@@ -107,14 +107,6 @@
 			container.classList.remove('transitioning');
 			resizeCanvasToCard();
 		});
-
-		container.addEventListener('mouseenter', () => {
-			container.style.padding = '20px';
-		});
-
-		container.addEventListener('mouseleave', () => {
-			container.style.padding = '0px';
-		});
 	}
 
 	onMount(() => {

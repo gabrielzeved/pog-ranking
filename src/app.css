@@ -33,4 +33,7 @@ html {
 	font-family: 'spiegel';
 	color: theme(colors.gold.1);
 	background-color: theme(colors.hextech_black);
+
+	max-width: 100vw;
+	max-height: 100vh;
 }
