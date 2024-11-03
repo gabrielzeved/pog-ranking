@@ -12,7 +12,7 @@
 		currency: 'USD'
 	});
 
-	let isCriminoso = !((info?.wins ?? 0) <= (info?.losses ?? 0));
+	let isCriminoso = (info?.wins ?? 0) <= (info?.losses ?? 0);
 </script>
 
 <div class="flip-card">
