@@ -23,14 +23,19 @@ export const RANK_ORDER = ['UNRANKED', 'IV', 'III', 'II', 'I'];
 
 export const playersMock = [
 	{
-		gameName: 'Nenemz',
-		tagLine: '3514',
-		champion: 'talon'
+		gameName: 'The Last Dance',
+		tagLine: '2030',
+		champion: 'talon',
+		imageName: 'nenemz',
+		wantedImage: '/criminosos/nenemz.png'
 	},
 	{
 		gameName: 'Dreosh',
 		tagLine: 'BR1',
-		champion: 'sejuani'
+		champion: 'sejuani',
+		wantedName: 'Dreosh',
+		imageName: 'dreosh',
+		wantedImage: '/wanted/dreosh.png'
 	},
 	{
 		gameName: 'Kaikan',
@@ -39,17 +44,24 @@ export const playersMock = [
 	},
 	{
 		gameName: 'Raizzeni',
-		tagLine: 'Toth'
+		tagLine: 'Toth',
+		wantedName: 'Gomes'
 	},
 	{
-		gameName: 'Neyans',
-		tagLine: '001',
-		champion: 'thresh'
+		gameName: 'El Último Tango',
+		tagLine: '2026',
+		champion: 'thresh',
+		wantedName: 'El Último Job',
+		imageName: 'neyans',
+		wantedImage: '/wanted/neyans.png'
 	},
 	{
 		gameName: 'SrPBL',
 		tagLine: 'BR1',
-		champion: 'volibear'
+		champion: 'volibear',
+		wantedName: 'SrPBL',
+		imageName: 'srpbl',
+		wantedImage: '/wanted/srpbl.png'
 	},
 	{
 		gameName: 'Kenai',
@@ -68,7 +80,8 @@ export const playersMock = [
 	},
 	{
 		gameName: 'SrSSS',
-		tagLine: 'BR1'
+		tagLine: 'BR1',
+		wantedName: 'SrSSS'
 	}
 ];
 
