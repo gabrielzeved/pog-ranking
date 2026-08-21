@@ -6,13 +6,15 @@
 	export let info: PlayerInfo;
 	export let size: 'sm' | 'lg' = 'sm';
 
-	let champion = playersMock.find((player) => player.gameName === info.gameName)?.champion;
+	const playerMock = playersMock.find((player) => player.gameName === info.gameName);
+	let champion = playerMock?.champion;
+	const imageName = playerMock?.imageName ?? info.gameName.toLowerCase();
 	let container: HTMLDivElement;
 </script>
 
 <div class="relative group" bind:this={container}>
 	<div
-		class="transform-style-3d  px-0 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform transition-all duration-500 ease-in-out"
+		class="transform-style-3d px-0 rotate-x-[70deg] rotate-z-[27deg] group-hover:transform transition-all duration-500 ease-in-out"
 	>
 		<div class={`card to-black/10 ${$$props.class} overflow-hidden`}>
 			{#if size === 'lg'}
@@ -24,7 +26,7 @@
 			<div class="h-full">
 				<img
 					class="w-full h-full object-cover p-1"
-					src={`/criminosos/${info.gameName.toLowerCase()}.png`}
+					src={`/criminosos/${imageName}.png`}
 					onerror={`this.src = '/criminosos/fallback.png'`}
 					alt={info.gameName}
 				/>

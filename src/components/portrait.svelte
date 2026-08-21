@@ -4,7 +4,11 @@
 
 	export let info: PlayerInfo;
 
-	const wantedName = playersMock.find((player) => player.gameName === info.gameName)?.wantedName;
+	const playerMock = playersMock.find((player) => player.gameName === info.gameName);
+	const wantedName = playerMock?.wantedName;
+	const imageName = playerMock?.imageName ?? info.gameName.toLowerCase();
+	const criminalImage = `/criminosos/${imageName}.png`;
+	const wantedImage = playerMock?.wantedImage ?? `/wanted/${imageName}.png`;
 
 	const wantedPrice = Math.ceil(((info?.losses ?? 0) / (info?.wins ?? 1)) * 100) * 1000;
 	const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -20,7 +24,7 @@
 		<div class="flip-card-front">
 			<img
 				class="w-full h-full object-cover"
-				src={`/criminosos/${info.gameName.toLowerCase()}.png`}
+				src={criminalImage}
 				onerror={`this.src = '/criminosos/fallback.png'`}
 				alt={info.gameName}
 			/>
@@ -47,7 +51,8 @@
 				<img
 					class="absolute z-10 w-[86%] h-[44%] criminoso border-4 border-amber-950"
 					alt="wanted"
-					src={`/wanted/${info.gameName.toLowerCase()}.png`}
+					src={wantedImage}
+					onerror={`this.onerror = null; this.src = '/criminosos/fallback.png'`}
 				/>
 				<div
 					class="flex flex-col items-center absolute z-10 bottom-[15%] left-2/4 translate-x-[-50%]"
