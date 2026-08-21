@@ -6,7 +6,7 @@
 
 	export let data;
 
-	const top3 = data.players.slice(0, 3);
+	const top3 = data.players.filter((player: PlayerInfo) => getWinRate(player) > 0.5).slice(0, 3);
 	const playersWithGames = data.players.filter(
 		(player: PlayerInfo) => player.wins + player.losses > 0
 	);
