@@ -1,12 +1,10 @@
-import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
-import type { PlayerInfo } from '../../typings';
+import { getPlayers } from '$lib/server/players';
+import type { PageServerLoad } from './$types';
 
-export async function load() {
-	const res = await fetch(`${PUBLIC_BACKEND_API_URL}/players`);
-
-	const players: PlayerInfo[] = await res.json();
+export const load: PageServerLoad = async ({ fetch }) => {
+	const players = await getPlayers(fetch);
 
 	return {
 		players
 	};
-}
+};

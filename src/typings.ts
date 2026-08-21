@@ -1,4 +1,5 @@
 export type Tier =
+	| 'UNRANKED'
 	| 'IRON'
 	| 'SILVER'
 	| 'GOLD'
@@ -9,7 +10,7 @@ export type Tier =
 	| 'GRANDMASTER'
 	| 'CHALLENGER';
 
-export type Rank = 'IV' | 'III' | 'II' | 'I';
+export type Rank = 'UNRANKED' | 'IV' | 'III' | 'II' | 'I';
 export interface PlayerInfo {
 	id: string;
 	gameName: string;
