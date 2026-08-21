@@ -64,9 +64,15 @@ export const playersMock = [
 		wantedImage: '/wanted/srpbl.png'
 	},
 	{
+		gameName: 'carolconsoline',
+		tagLine: 'BR1',
+		champion: 'nami',
+		wantedName: 'meu marido é rico',
+	},
+	{
 		gameName: 'Kenai',
 		tagLine: 'duo',
-		wantedName: 'LELEY DO CARRO BIXO'
+		wantedName: 'Sabryna'
 	},
 	{
 		gameName: 'bobtheconstrutor',

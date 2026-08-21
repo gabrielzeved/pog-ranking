@@ -1,12 +1,35 @@
 <script lang="ts">
+	import { getWinRate } from '../sdk/criminal';
 	import Card from '../components/card.svelte';
 	import Portrait from '../components/portrait.svelte';
+	import type { PlayerInfo } from '../typings';
 
 	export let data;
 
 	const top3 = data.players.slice(0, 3);
+	const playersWithGames = data.players.filter(
+		(player: PlayerInfo) => player.wins + player.losses > 0
+	);
+	const bottomPool = playersWithGames.length >= 3 ? playersWithGames : data.players;
+	const bottom3 = [...bottomPool]
+		.sort(
+			(playerA: PlayerInfo, playerB: PlayerInfo) =>
+				getWinRate(playerA) - getWinRate(playerB) || playerB.losses - playerA.losses
+		)
+		.slice(0, 3);
+	const top3Ids = new Set(top3.map((player: PlayerInfo) => player.id));
+	const bottom3Ids = new Set(bottom3.map((player: PlayerInfo) => player.id));
+	const rankingPositions = new Map(
+		data.players.map((player: PlayerInfo, index: number) => [player.id, index + 1])
+	);
+	const cards = data.players.filter(
+		(player: PlayerInfo) => !top3Ids.has(player.id) && !bottom3Ids.has(player.id)
+	);
+	const winRateFormatter = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
 
-	const cards = data.players.slice(3);
+	function getWinRateLabel(player: PlayerInfo): string {
+		return `${winRateFormatter.format(getWinRate(player) * 100)}% WR`;
+	}
 </script>
 
 <div class="mt-16 text-center font-beaufort">
@@ -31,12 +54,102 @@
 	</div>
 </div>
 
-<h1 class="text-4xl text-center font-bold text-gold-4 mt-10">CRIMINOSOS</h1>
+{#if bottom3.length > 0}
+	<section class="most-wanted-stage mx-auto mt-20 max-w-6xl px-4 py-12">
+		<div class="relative z-10 mb-12 text-center">
+			<span class="case-label">UNIDADE DE REPRESSÃO AO WIN RATE</span>
+			<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-1 md:text-5xl">BOTTOM 3</h2>
+			<p class="mx-auto mt-3 max-w-2xl text-sm text-gold-1/70">
+				Os três piores win rates da Família POG. Passe o mouse sobre um cartaz para consultar o
+				dossiê criminal.
+			</p>
+		</div>
 
-<div class="flex w-full items-center justify-center mt-10">
-	<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-		{#each cards as player}
-			<Portrait info={player} />
-		{/each}
+		<div
+			class="relative z-10 flex flex-col items-center justify-center gap-10 md:flex-row md:items-center"
+		>
+			{#each bottom3 as player, index}
+				<div
+					class={index === 0
+						? 'order-1 md:order-2'
+						: index === 1
+							? 'order-2 md:order-1'
+							: 'order-3'}
+				>
+					<Portrait
+						info={player}
+						featured
+						mostWanted={index === 0}
+						rankPosition={rankingPositions.get(player.id)}
+						badgeLabel={getWinRateLabel(player)}
+					/>
+				</div>
+			{/each}
+		</div>
+	</section>
+{/if}
+
+{#if cards.length > 0}
+	<div class="mt-16 text-center">
+		<span class="case-label">CASOS EM ABERTO</span>
+		<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-4">ARQUIVO CRIMINAL</h2>
+		<img src="/decorator-hr-lg.png" alt="" class="m-auto mt-3 max-w-52" />
 	</div>
-</div>
+
+	<div class="mt-10 flex w-full items-center justify-center px-4">
+		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+			{#each cards as player}
+				<Portrait info={player} rankPosition={rankingPositions.get(player.id)} />
+			{/each}
+		</div>
+	</div>
+{/if}
+
+<style>
+	.most-wanted-stage {
+		position: relative;
+		overflow: hidden;
+		border: 1px solid rgb(200 155 60 / 32%);
+		background: radial-gradient(circle at 50% 15%, rgb(153 27 27 / 25%), transparent 38%),
+			linear-gradient(180deg, rgb(15 23 32 / 96%), rgb(2 11 20 / 98%));
+		box-shadow:
+			inset 0 0 80px rgb(0 0 0 / 55%),
+			0 24px 80px rgb(0 0 0 / 35%);
+	}
+
+	.most-wanted-stage::before,
+	.most-wanted-stage::after {
+		position: absolute;
+		z-index: 0;
+		width: 420px;
+		height: 26px;
+		transform: rotate(-12deg);
+		background: repeating-linear-gradient(
+			135deg,
+			#c89b3c 0,
+			#c89b3c 18px,
+			#141414 18px,
+			#141414 36px
+		);
+		content: '';
+		opacity: 0.14;
+	}
+
+	.most-wanted-stage::before {
+		top: 35px;
+		left: -120px;
+	}
+
+	.most-wanted-stage::after {
+		right: -120px;
+		bottom: 35px;
+	}
+
+	.case-label {
+		color: #bda36b;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+	}
+</style>
