@@ -43,9 +43,11 @@ export const playersMock = [
 		champion: 'lucian'
 	},
 	{
-		gameName: 'Raizzeni',
-		tagLine: 'Toth',
-		wantedName: 'Gomes'
+		gameName: 'YahToth',
+		tagLine: 'BR1',
+		wantedName: 'Eric Cartman',
+		imageName: 'raizzeni',
+		wantedImage: '/wanted/raizzeni.png'
 	},
 	{
 		gameName: 'El Último Tango',
