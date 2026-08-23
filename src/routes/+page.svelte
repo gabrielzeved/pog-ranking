@@ -23,6 +23,11 @@
 	function getWinRateLabel(player: RankedPlayerInfo): string {
 		return `${winRateFormatter.format(player.winRate * 100)}% WR`;
 	}
+
+	function getArchiveBadgeLabel(player: RankedPlayerInfo): string {
+		if (player.rankingPosition !== null) return '';
+		return player.gamesPlayed > 0 ? getWinRateLabel(player) : 'SEM JOGOS';
+	}
 </script>
 
 <div class="mt-16 text-center font-beaufort">
@@ -92,7 +97,11 @@
 	<div class="mt-10 flex w-full items-center justify-center px-4">
 		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each cards as player}
-				<Portrait info={player} rankPosition={player.rankingPosition ?? 0} />
+				<Portrait
+					info={player}
+					rankPosition={player.rankingPosition ?? 0}
+					badgeLabel={getArchiveBadgeLabel(player)}
+				/>
 			{/each}
 		</div>
 	</div>
