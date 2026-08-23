@@ -47,8 +47,8 @@
 			<span class="case-label">UNIDADE DE REPRESSÃO AO WIN RATE</span>
 			<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-1 md:text-5xl">BOTTOM 3</h2>
 			<p class="mx-auto mt-3 max-w-2xl text-sm text-gold-1/70">
-				As três últimas posições do Ranking POG. O último colocado recebe destaque na fiscalização
-				da Solo Queue.
+				As três últimas posições do Ranking POG, ordenadas pelo win rate. O menor WR recebe a última
+				posição e o destaque da fiscalização.
 			</p>
 		</div>
 
@@ -67,7 +67,7 @@
 						info={player}
 						featured
 						mostWanted={index === 2}
-						rankPosition={player.overallPosition}
+						rankPosition={player.bottomPosition ?? player.overallPosition}
 					/>
 				</div>
 			{/each}

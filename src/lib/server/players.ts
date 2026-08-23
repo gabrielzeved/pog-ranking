@@ -23,7 +23,8 @@ function getMockRanking(): RankingView {
 		gamesPlayed: 0,
 		winRate: 0,
 		overallPosition: index + 1,
-		rankingPosition: null
+		rankingPosition: null,
+		bottomPosition: null
 	}));
 
 	return {
