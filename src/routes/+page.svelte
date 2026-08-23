@@ -47,8 +47,8 @@
 			<span class="case-label">UNIDADE DE REPRESSÃO AO WIN RATE</span>
 			<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-1 md:text-5xl">BOTTOM 3</h2>
 			<p class="mx-auto mt-3 max-w-2xl text-sm text-gold-1/70">
-				As três últimas posições do Ranking POG. O pior win rate do trio recebe destaque na
-				fiscalização da Solo Queue.
+				As três últimas posições do Ranking POG. O último colocado recebe destaque na fiscalização
+				da Solo Queue.
 			</p>
 		</div>
 
@@ -58,15 +58,15 @@
 			{#each bottom3 as player, index}
 				<div
 					class={index === 0
-						? 'order-1 md:order-2'
+						? 'order-1 md:order-1'
 						: index === 1
-							? 'order-2 md:order-1'
-							: 'order-3'}
+							? 'order-2 md:order-3'
+							: 'order-3 md:order-2'}
 				>
 					<Portrait
 						info={player}
 						featured
-						mostWanted={index === 0}
+						mostWanted={index === 2}
 						rankPosition={player.overallPosition}
 					/>
 				</div>
