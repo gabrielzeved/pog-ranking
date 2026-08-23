@@ -24,7 +24,8 @@ function getMockRanking(): RankingView {
 		winRate: 0,
 		overallPosition: index + 1,
 		rankingPosition: null,
-		bottomPosition: null
+		bottomPosition: null,
+		displayPosition: index + 1
 	}));
 
 	return {

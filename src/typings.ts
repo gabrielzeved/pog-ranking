@@ -31,6 +31,7 @@ export interface RankedPlayerInfo extends PlayerInfo {
 	overallPosition: number;
 	rankingPosition: number | null;
 	bottomPosition: number | null;
+	displayPosition: number;
 }
 
 export interface RankingView {

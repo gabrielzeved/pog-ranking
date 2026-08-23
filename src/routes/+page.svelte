@@ -47,8 +47,8 @@
 			<span class="case-label">UNIDADE DE REPRESSÃO AO WIN RATE</span>
 			<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-1 md:text-5xl">BOTTOM 3</h2>
 			<p class="mx-auto mt-3 max-w-2xl text-sm text-gold-1/70">
-				As três últimas posições do Ranking POG, ordenadas pelo win rate. O menor WR recebe a última
-				posição e o destaque da fiscalização.
+				Os três menores win rates do Ranking POG ocupam as últimas posições. O menor WR recebe a
+				última posição e o destaque da fiscalização.
 			</p>
 		</div>
 
@@ -85,7 +85,7 @@
 	<div class="mt-10 flex w-full items-center justify-center px-4">
 		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each cards as player}
-				<Portrait info={player} rankPosition={player.overallPosition} />
+				<Portrait info={player} rankPosition={player.displayPosition} />
 			{/each}
 		</div>
 	</div>
