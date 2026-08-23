@@ -1,13 +1,10 @@
-import { getPlayers } from '$lib/server/players';
-import { comparePlayers } from '../sdk/utils';
+import { getRanking } from '$lib/server/players';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const players = await getPlayers(fetch);
-
-	players.sort(comparePlayers);
+	const ranking = await getRanking(fetch);
 
 	return {
-		players
+		ranking
 	};
 };

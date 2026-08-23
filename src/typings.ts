@@ -1,6 +1,7 @@
 export type Tier =
 	| 'UNRANKED'
 	| 'IRON'
+	| 'BRONZE'
 	| 'SILVER'
 	| 'GOLD'
 	| 'PLATINUM'
@@ -22,4 +23,18 @@ export interface PlayerInfo {
 	leaguePoints: number;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface RankedPlayerInfo extends PlayerInfo {
+	gamesPlayed: number;
+	winRate: number;
+	overallPosition: number;
+	rankingPosition: number | null;
+}
+
+export interface RankingView {
+	players: RankedPlayerInfo[];
+	ranking: RankedPlayerInfo[];
+	top3: RankedPlayerInfo[];
+	bottom3: RankedPlayerInfo[];
 }

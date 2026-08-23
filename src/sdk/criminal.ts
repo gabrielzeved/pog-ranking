@@ -10,7 +10,7 @@ export interface CriminalProfile {
 
 export function getWinRate(player: PlayerInfo): number {
 	const games = player.wins + player.losses;
-	return games > 0 ? player.wins / games : 1;
+	return games > 0 ? player.wins / games : 0;
 }
 
 export function getCriminalProfile(player: PlayerInfo, mostWanted = false): CriminalProfile {

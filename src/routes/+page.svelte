@@ -1,34 +1,27 @@
 <script lang="ts">
-	import { getWinRate } from '../sdk/criminal';
 	import Card from '../components/card.svelte';
 	import Portrait from '../components/portrait.svelte';
-	import type { PlayerInfo } from '../typings';
+	import type { RankedPlayerInfo, RankingView } from '../typings';
 
 	export let data;
 
-	const top3 = data.players.filter((player: PlayerInfo) => getWinRate(player) > 0.5).slice(0, 3);
-	const playersWithGames = data.players.filter(
-		(player: PlayerInfo) => player.wins + player.losses > 0
-	);
-	const bottomPool = playersWithGames.length >= 3 ? playersWithGames : data.players;
-	const bottom3 = [...bottomPool]
-		.sort(
-			(playerA: PlayerInfo, playerB: PlayerInfo) =>
-				getWinRate(playerA) - getWinRate(playerB) || playerB.losses - playerA.losses
-		)
-		.slice(0, 3);
-	const top3Ids = new Set(top3.map((player: PlayerInfo) => player.id));
-	const bottom3Ids = new Set(bottom3.map((player: PlayerInfo) => player.id));
-	const rankingPositions = new Map(
-		data.players.map((player: PlayerInfo, index: number) => [player.id, index + 1])
-	);
-	const cards = data.players.filter(
-		(player: PlayerInfo) => !top3Ids.has(player.id) && !bottom3Ids.has(player.id)
-	);
+	let ranking: RankingView;
+	let top3: RankedPlayerInfo[];
+	let bottom3: RankedPlayerInfo[];
+	let cards: RankedPlayerInfo[];
+
+	$: ranking = data.ranking;
+	$: top3 = ranking.top3;
+	$: bottom3 = ranking.bottom3;
+	$: {
+		const featuredIds = new Set([...top3, ...bottom3].map((player) => player.id));
+		cards = ranking.players.filter((player) => !featuredIds.has(player.id));
+	}
+
 	const winRateFormatter = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
 
-	function getWinRateLabel(player: PlayerInfo): string {
-		return `${winRateFormatter.format(getWinRate(player) * 100)}% WR`;
+	function getWinRateLabel(player: RankedPlayerInfo): string {
+		return `${winRateFormatter.format(player.winRate * 100)}% WR`;
 	}
 </script>
 
@@ -80,7 +73,7 @@
 						info={player}
 						featured
 						mostWanted={index === 0}
-						rankPosition={rankingPositions.get(player.id)}
+						rankPosition={player.rankingPosition ?? 0}
 						badgeLabel={getWinRateLabel(player)}
 					/>
 				</div>
@@ -99,7 +92,7 @@
 	<div class="mt-10 flex w-full items-center justify-center px-4">
 		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each cards as player}
-				<Portrait info={player} rankPosition={rankingPositions.get(player.id)} />
+				<Portrait info={player} rankPosition={player.rankingPosition ?? 0} />
 			{/each}
 		</div>
 	</div>
