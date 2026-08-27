@@ -40,3 +40,20 @@ export interface RankingView {
 	top3: RankedPlayerInfo[];
 	bottom3: RankedPlayerInfo[];
 }
+
+export interface RecentMatch {
+	id: string;
+	championId: number;
+	championName: string;
+	win: boolean;
+	kills: number;
+	deaths: number;
+	assists: number;
+	minionsKilled: number;
+	visionScore: number;
+	goldEarned: number;
+	role: string;
+	durationSeconds: number;
+	endedAt: string;
+	queueId: number;
+}
