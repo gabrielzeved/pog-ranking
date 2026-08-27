@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { getRecentMatches } from '$lib/players';
 	import { RANK_ORDER, TIER_ORDER } from '../sdk/constants';
 	import type { RankedPlayerInfo, RecentMatch } from '../typings';
@@ -33,11 +34,17 @@
 	let sortDirection: SortDirection = 'asc';
 	let expandedPlayerId: string | null = null;
 	let matchesByPlayer: Record<string, RecentMatch[]> = {};
+	let winStreaksByPlayer: Record<string, number> = {};
+	let lossStreaksByPlayer: Record<string, number> = {};
 	let errorsByPlayer: Record<string, string> = {};
 	let loadingByPlayer: Record<string, boolean> = {};
 	let sortedPlayers: RankedPlayerInfo[] = [];
 
 	$: sortedPlayers = [...players].sort((a, b) => comparePlayers(a, b, sortKey, sortDirection));
+
+	onMount(() => {
+		void preloadRecentMatches();
+	});
 
 	function comparePlayers(
 		a: RankedPlayerInfo,
@@ -107,6 +114,14 @@
 		try {
 			const matches = await getRecentMatches(player.id);
 			matchesByPlayer = { ...matchesByPlayer, [player.id]: matches };
+			winStreaksByPlayer = {
+				...winStreaksByPlayer,
+				[player.id]: getWinStreak(matches)
+			};
+			lossStreaksByPlayer = {
+				...lossStreaksByPlayer,
+				[player.id]: getLossStreak(matches)
+			};
 		} catch (error) {
 			errorsByPlayer = {
 				...errorsByPlayer,
@@ -116,6 +131,46 @@
 		} finally {
 			loadingByPlayer = { ...loadingByPlayer, [player.id]: false };
 		}
+	}
+
+	async function preloadRecentMatches() {
+		const queue = players.filter(
+			(player) => !matchesByPlayer[player.id] && !loadingByPlayer[player.id]
+		);
+		const workerCount = Math.min(3, queue.length);
+
+		await Promise.allSettled(
+			Array.from({ length: workerCount }, async () => {
+				let player = queue.shift();
+
+				while (player) {
+					await loadPlayerMatches(player);
+					player = queue.shift();
+				}
+			})
+		);
+	}
+
+	function getWinStreak(matches: RecentMatch[]): number {
+		let streak = 0;
+
+		for (const match of matches) {
+			if (!match.win) break;
+			streak += 1;
+		}
+
+		return streak;
+	}
+
+	function getLossStreak(matches: RecentMatch[]): number {
+		let streak = 0;
+
+		for (const match of matches) {
+			if (match.win) break;
+			streak += 1;
+		}
+
+		return streak;
 	}
 
 	async function togglePlayer(player: RankedPlayerInfo) {
@@ -191,7 +246,12 @@
 			</thead>
 			<tbody>
 				{#each sortedPlayers as player (player.id)}
-					<tr class:expanded={expandedPlayerId === player.id} class="player-row">
+					<tr
+						class:expanded={expandedPlayerId === player.id}
+						class:hot-streak-row={(winStreaksByPlayer[player.id] ?? 0) >= 3}
+						class:loss-streak-row={(lossStreaksByPlayer[player.id] ?? 0) >= 3}
+						class="player-row"
+					>
 						<td>
 							<button
 								class="expand-button"
@@ -205,8 +265,25 @@
 						<td class="position">#{player.displayPosition}</td>
 						<td>
 							<button class="player-name" on:click={() => togglePlayer(player)}>
-								<strong>{player.gameName}</strong>
-								<span>#{player.tagLine}</span>
+								<span class="player-name-line">
+									<strong>{player.gameName}</strong>
+									{#if (winStreaksByPlayer[player.id] ?? 0) >= 3}
+										<span
+											class="hot-streak-badge"
+											title="Em uma sequência de pelo menos três vitórias"
+										>
+											<span aria-hidden="true">🔥</span> 3+ vitórias
+										</span>
+									{:else if (lossStreaksByPlayer[player.id] ?? 0) >= 3}
+										<span
+											class="loss-streak-badge"
+											title="Em uma sequência de pelo menos três derrotas"
+										>
+											<span aria-hidden="true">💀</span> 3+ derrotas
+										</span>
+									{/if}
+								</span>
+								<span class="tag-line">#{player.tagLine}</span>
 							</button>
 						</td>
 						<td>
@@ -337,6 +414,20 @@
 	.player-row.expanded {
 		background: rgb(200 155 60 / 7%);
 	}
+	.player-row.hot-streak-row {
+		background: linear-gradient(90deg, rgb(234 88 12 / 8%), transparent 34%);
+	}
+	.player-row.hot-streak-row:hover,
+	.player-row.hot-streak-row.expanded {
+		background: linear-gradient(90deg, rgb(234 88 12 / 14%), rgb(200 155 60 / 6%) 55%);
+	}
+	.player-row.loss-streak-row {
+		background: linear-gradient(90deg, rgb(153 27 27 / 9%), transparent 34%);
+	}
+	.player-row.loss-streak-row:hover,
+	.player-row.loss-streak-row.expanded {
+		background: linear-gradient(90deg, rgb(185 28 28 / 15%), rgb(127 29 29 / 5%) 55%);
+	}
 	.expand-button {
 		width: 30px;
 		height: 30px;
@@ -365,12 +456,85 @@
 		flex-direction: column;
 		text-align: left;
 	}
-	.player-name strong {
+	.player-name-line {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.player-name-line > strong {
 		color: #f0e6d2;
 	}
-	.player-name span {
+	.player-name > .tag-line {
 		color: rgb(240 230 210 / 45%);
 		font-size: 12px;
+	}
+	.hot-streak-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 3px;
+		border: 1px solid rgb(251 146 60 / 35%);
+		border-radius: 9999px;
+		background: rgb(124 45 18 / 28%);
+		box-shadow: 0 0 12px rgb(249 115 22 / 10%);
+		color: #fdba74;
+		font-size: 8px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		padding: 2px 6px;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+	.hot-streak-badge > span {
+		animation: streak-flame 1.4s ease-in-out infinite;
+		font-size: 10px;
+	}
+	.loss-streak-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 3px;
+		border: 1px solid rgb(248 113 113 / 35%);
+		border-radius: 9999px;
+		background: rgb(127 29 29 / 25%);
+		box-shadow: 0 0 12px rgb(220 38 38 / 10%);
+		color: #fca5a5;
+		font-size: 8px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		padding: 2px 6px;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+	.loss-streak-badge > span {
+		animation: loss-pulse 1.8s ease-in-out infinite;
+		font-size: 10px;
+	}
+	@keyframes streak-flame {
+		0%,
+		100% {
+			filter: drop-shadow(0 0 2px rgb(249 115 22 / 35%));
+			transform: translateY(0) scale(1);
+		}
+		50% {
+			filter: drop-shadow(0 0 5px rgb(251 146 60 / 70%));
+			transform: translateY(-1px) scale(1.08);
+		}
+	}
+	@keyframes loss-pulse {
+		0%,
+		100% {
+			filter: drop-shadow(0 0 2px rgb(220 38 38 / 30%));
+			opacity: 0.78;
+		}
+		50% {
+			filter: drop-shadow(0 0 5px rgb(248 113 113 / 65%));
+			opacity: 1;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.hot-streak-badge > span,
+		.loss-streak-badge > span {
+			animation: none;
+		}
 	}
 	.elo-cell {
 		display: flex;
