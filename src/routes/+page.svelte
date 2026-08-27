@@ -1,34 +1,21 @@
 <script lang="ts">
-	import { getWinRate } from '../sdk/criminal';
 	import Card from '../components/card.svelte';
 	import Portrait from '../components/portrait.svelte';
-	import type { PlayerInfo } from '../typings';
+	import type { RankedPlayerInfo, RankingView } from '../typings';
 
 	export let data;
 
-	const top3 = data.players.filter((player: PlayerInfo) => getWinRate(player) > 0.5).slice(0, 3);
-	const playersWithGames = data.players.filter(
-		(player: PlayerInfo) => player.wins + player.losses > 0
-	);
-	const bottomPool = playersWithGames.length >= 3 ? playersWithGames : data.players;
-	const bottom3 = [...bottomPool]
-		.sort(
-			(playerA: PlayerInfo, playerB: PlayerInfo) =>
-				getWinRate(playerA) - getWinRate(playerB) || playerB.losses - playerA.losses
-		)
-		.slice(0, 3);
-	const top3Ids = new Set(top3.map((player: PlayerInfo) => player.id));
-	const bottom3Ids = new Set(bottom3.map((player: PlayerInfo) => player.id));
-	const rankingPositions = new Map(
-		data.players.map((player: PlayerInfo, index: number) => [player.id, index + 1])
-	);
-	const cards = data.players.filter(
-		(player: PlayerInfo) => !top3Ids.has(player.id) && !bottom3Ids.has(player.id)
-	);
-	const winRateFormatter = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
+	let ranking: RankingView;
+	let top3: RankedPlayerInfo[];
+	let bottom3: RankedPlayerInfo[];
+	let cards: RankedPlayerInfo[];
 
-	function getWinRateLabel(player: PlayerInfo): string {
-		return `${winRateFormatter.format(getWinRate(player) * 100)}% WR`;
+	$: ranking = data.ranking;
+	$: top3 = ranking.top3;
+	$: bottom3 = ranking.bottom3;
+	$: {
+		const featuredIds = new Set([...top3, ...bottom3].map((player) => player.id));
+		cards = ranking.players.filter((player) => !featuredIds.has(player.id));
 	}
 </script>
 
@@ -60,8 +47,8 @@
 			<span class="case-label">UNIDADE DE REPRESSÃO AO WIN RATE</span>
 			<h2 class="mt-2 font-beaufort text-4xl font-bold text-gold-1 md:text-5xl">BOTTOM 3</h2>
 			<p class="mx-auto mt-3 max-w-2xl text-sm text-gold-1/70">
-				Os três piores win rates da Família POG. Passe o mouse sobre um cartaz para consultar o
-				dossiê criminal.
+				Os três menores win rates do Ranking POG ocupam as últimas posições. O menor WR recebe a
+				última posição e o destaque da fiscalização.
 			</p>
 		</div>
 
@@ -71,17 +58,16 @@
 			{#each bottom3 as player, index}
 				<div
 					class={index === 0
-						? 'order-1 md:order-2'
+						? 'order-1 md:order-1'
 						: index === 1
-							? 'order-2 md:order-1'
-							: 'order-3'}
+							? 'order-2 md:order-3'
+							: 'order-3 md:order-2'}
 				>
 					<Portrait
 						info={player}
 						featured
-						mostWanted={index === 0}
-						rankPosition={rankingPositions.get(player.id)}
-						badgeLabel={getWinRateLabel(player)}
+						mostWanted={index === 2}
+						rankPosition={player.bottomPosition ?? player.overallPosition}
 					/>
 				</div>
 			{/each}
@@ -99,7 +85,7 @@
 	<div class="mt-10 flex w-full items-center justify-center px-4">
 		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each cards as player}
-				<Portrait info={player} rankPosition={rankingPositions.get(player.id)} />
+				<Portrait info={player} rankPosition={player.displayPosition} />
 			{/each}
 		</div>
 	</div>

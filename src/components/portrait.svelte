@@ -30,7 +30,7 @@
 				<div class="most-wanted-ribbon">INIMIGO PÚBLICO Nº 1</div>
 			{/if}
 			{#if badgeLabel || rankPosition > 0}
-				<div class="ranking-stamp">{`#${rankPosition}`}</div>
+				<div class="ranking-stamp">{badgeLabel || `#${rankPosition}`}</div>
 			{/if}
 			<img
 				class="w-full h-full object-cover"
