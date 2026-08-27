@@ -3,14 +3,14 @@
 </script>
 
 <header class="relative z-20 h-20 w-full border-b-2 border-gold-4 px-4">
-	<div class="mx-auto flex h-full max-w-7xl items-center justify-between">
-		<a href="/" aria-label="POG Ranking — início">
-			<img
-				class="h-28 translate-y-3 md:h-40 md:translate-y-5"
-				alt="POG Ranking"
-				src="/ranking-no-bg.png"
-			/>
-		</a>
+	<a class="absolute left-1/2 top-0 -translate-x-1/2" href="/" aria-label="POG Ranking — início">
+		<img
+			class="h-28 translate-y-3 md:h-40 md:translate-y-5"
+			alt="POG Ranking"
+			src="/ranking-no-bg.png"
+		/>
+	</a>
+	<div class="mx-auto flex h-full max-w-7xl items-center justify-end">
 		<nav
 			aria-label="Navegação principal"
 			class="flex items-center gap-1 text-xs font-bold uppercase tracking-[.12em] md:gap-3"

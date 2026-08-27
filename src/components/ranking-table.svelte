@@ -37,12 +37,17 @@
 	let loadingByPlayer: Record<string, boolean> = {};
 	let sortedPlayers: RankedPlayerInfo[] = [];
 
-	$: sortedPlayers = [...players].sort((a, b) => comparePlayers(a, b));
+	$: sortedPlayers = [...players].sort((a, b) => comparePlayers(a, b, sortKey, sortDirection));
 
-	function comparePlayers(a: RankedPlayerInfo, b: RankedPlayerInfo): number {
+	function comparePlayers(
+		a: RankedPlayerInfo,
+		b: RankedPlayerInfo,
+		selectedKey: SortKey,
+		selectedDirection: SortDirection
+	): number {
 		let comparison = 0;
 
-		switch (sortKey) {
+		switch (selectedKey) {
 			case 'position':
 				comparison = a.displayPosition - b.displayPosition;
 				break;
@@ -71,7 +76,7 @@
 				comparison = a.gamesPlayed - b.gamesPlayed;
 		}
 
-		const directed = sortDirection === 'asc' ? comparison : -comparison;
+		const directed = selectedDirection === 'asc' ? comparison : -comparison;
 		return directed || a.displayPosition - b.displayPosition;
 	}
 
