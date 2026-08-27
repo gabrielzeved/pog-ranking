@@ -6,7 +6,9 @@
 	export let info: PlayerInfo;
 	export let size: 'sm' | 'lg' = 'sm';
 
-	const playerMock = playersMock.find((player) => player.gameName === info.gameName);
+	const playerMock = playersMock.find(
+	(player) => player.gameName.toLowerCase() === info.gameName.toLowerCase()
+);
 	let champion = playerMock?.champion;
 	const imageName = playerMock?.imageName ?? info.gameName.toLowerCase();
 	let container: HTMLDivElement;

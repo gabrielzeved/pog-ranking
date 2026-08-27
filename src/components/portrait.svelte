@@ -9,7 +9,9 @@
 	export let rankPosition = 0;
 	export let badgeLabel = '';
 
-	const playerMock = playersMock.find((player) => player.gameName === info.gameName);
+	const playerMock = playersMock.find(
+	(player) => player.gameName.toLowerCase() === info.gameName.toLowerCase()
+);
 	const wantedName = playerMock?.wantedName;
 	const imageName = playerMock?.imageName ?? info.gameName.toLowerCase();
 	const criminalImage = `/criminosos/${imageName}.png`;

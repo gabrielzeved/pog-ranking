@@ -33,7 +33,7 @@ export const playersMock = [
 		gameName: 'Dreosh',
 		tagLine: 'BR1',
 		champion: 'sejuani',
-		wantedName: 'Dreosh',
+		wantedName: 'Twink',
 		imageName: 'dreosh',
 		wantedImage: '/wanted/dreosh.png'
 	},
@@ -60,10 +60,10 @@ export const playersMock = [
 	{
 		gameName: 'SrPBL',
 		tagLine: 'BR1',
-		champion: 'volibear',
 		wantedName: 'SrPBL',
 		imageName: 'srpbl',
-		wantedImage: '/wanted/srpbl.png'
+		wantedImage: '/wanted/srpbl.png',
+		champion: 'angler_jax'
 	},
 	{
 		gameName: 'carolconsoline',
@@ -95,5 +95,6 @@ export const playersMock = [
 
 export const CHAMPIONS_SCALE: Record<string, number> = {
 	jhin: 1.5,
-	talon: 1.5
+	talon: 1.5,
+	angler_jax: 0.60
 };
