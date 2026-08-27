@@ -249,8 +249,12 @@
 														<span>{match.win ? 'Vitória' : 'Derrota'}</span>
 														<small>{formatDate(match.endedAt)}</small>
 													</div>
-													<div class="champion-mark">
-														{match.championName.slice(0, 2).toUpperCase()}
+													<div class="champion-avatar">
+														<img
+															src={`/champions/${match.championId}.png`}
+															alt={`Ícone de ${match.championName}`}
+															loading="lazy"
+														/>
 													</div>
 													<div class="champion">
 														<strong>{match.championName}</strong>
@@ -449,17 +453,18 @@
 		font-size: 10px;
 		font-weight: 400;
 	}
-	.champion-mark {
-		display: grid;
+	.champion-avatar {
 		width: 38px;
 		height: 38px;
-		place-items: center;
 		border: 1px solid rgb(200 155 60 / 38%);
 		border-radius: 50%;
-		color: #c89b3c;
-		font-family: 'beaufort';
-		font-size: 12px;
-		font-weight: 700;
+		overflow: hidden;
+		box-shadow: 0 0 12px rgb(0 0 0 / 45%);
+	}
+	.champion-avatar img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 	.champion,
 	.kda,
