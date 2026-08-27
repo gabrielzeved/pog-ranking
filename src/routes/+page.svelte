@@ -1,26 +1,91 @@
 <script lang="ts">
 	import Card from '../components/card.svelte';
 	import Portrait from '../components/portrait.svelte';
+	import { getRankedLpGap, HORS_CONCOURS_LP_GAP } from '../sdk/ranking';
 	import type { RankedPlayerInfo, RankingView } from '../typings';
 
 	export let data;
 
 	let ranking: RankingView;
+	let horsConcours: RankedPlayerInfo | null;
+	let horsConcoursGap = 0;
+	let showHorsConcours = false;
 	let top3: RankedPlayerInfo[];
 	let bottom3: RankedPlayerInfo[];
 	let cards: RankedPlayerInfo[];
+	const lpFormatter = new Intl.NumberFormat('pt-BR');
 
 	$: ranking = data.ranking;
-	$: top3 = ranking.top3;
+	$: {
+		const eligiblePlayers = ranking.ranking.length > 0 ? ranking.ranking : ranking.top3;
+		const leader = eligiblePlayers[0];
+		const runnerUp = eligiblePlayers[1];
+		const leaderGap = leader && runnerUp ? getRankedLpGap(leader, runnerUp) : 0;
+
+		horsConcours = leaderGap > HORS_CONCOURS_LP_GAP ? leader : null;
+		horsConcoursGap = horsConcours ? leaderGap : 0;
+		top3 = eligiblePlayers.slice(horsConcours ? 1 : 0, horsConcours ? 4 : 3);
+	}
 	$: bottom3 = ranking.bottom3;
 	$: {
-		const featuredIds = new Set([...top3, ...bottom3].map((player) => player.id));
+		const featuredIds = new Set(
+			[...(horsConcours ? [horsConcours] : []), ...top3, ...bottom3].map((player) => player.id)
+		);
 		cards = ranking.players.filter((player) => !featuredIds.has(player.id));
 	}
 </script>
 
+{#if horsConcours}
+	<section class="hors-concours-stage mx-auto mt-14 max-w-3xl">
+		<button
+			type="button"
+			class="hors-concours-summary"
+			aria-expanded={showHorsConcours}
+			aria-controls="hors-concours-details"
+			on:click={() => (showHorsConcours = !showHorsConcours)}
+		>
+			<span class="hors-concours-crown" aria-hidden="true">♛</span>
+			<span class="hors-concours-player">
+				<span>HORS CONCOURS</span>
+				<strong>{horsConcours.gameName}</strong>
+				<small>{horsConcours.tier} · {horsConcours.leaguePoints} PDL</small>
+			</span>
+			<span class="lp-gap-badge">
+				<strong>+{lpFormatter.format(horsConcoursGap)}</strong>
+				<span>PDL de vantagem</span>
+			</span>
+			<span class="hors-concours-toggle">
+				{showHorsConcours ? 'Recolher' : 'Ver destaque'}
+				<span class:expanded={showHorsConcours} aria-hidden="true">⌄</span>
+			</span>
+		</button>
+
+		{#if showHorsConcours}
+			<div id="hors-concours-details" class="hors-concours-details">
+				<div class="max-w-xs text-center md:text-left">
+					<span class="case-label">FORA DA DISPUTA</span>
+					<h2 class="mt-2 font-beaufort text-3xl font-bold text-gold-1">LÍDER ISOLADO</h2>
+					<p class="mt-3 text-sm leading-relaxed text-gold-1/70">
+						Uma vantagem grande demais para uma disputa justa. O líder ocupa uma categoria própria,
+						enquanto o pódio fica aberto aos demais jogadores.
+					</p>
+				</div>
+
+				<div class="hors-concours-card">
+					<Card class="w-[220px]" size="sm" info={horsConcours} />
+				</div>
+			</div>
+		{/if}
+	</section>
+{/if}
+
 <div class="mt-16 text-center font-beaufort">
 	<h2 class="text-4xl text-gold-4 font-bold mb-2">TOP 3</h2>
+	{#if horsConcours}
+		<p class="mb-2 text-xs uppercase tracking-[0.2em] text-gold-1/60">
+			Pódio disputado pelos demais jogadores
+		</p>
+	{/if}
 	<img src="/decorator-hr-lg.png" alt="" class="max-w-52 m-auto mb-4" />
 	<div class="flex flex-col items-center justify-center gap-4 md:flex-row md:items-end">
 		{#if top3[0]}
@@ -92,6 +157,152 @@
 {/if}
 
 <style>
+	.hors-concours-stage {
+		position: relative;
+		overflow: hidden;
+		border: 1px solid rgb(200 155 60 / 32%);
+		background: linear-gradient(100deg, rgb(200 155 60 / 8%), transparent 38%), rgb(2 11 20 / 82%);
+		box-shadow:
+			inset 0 0 35px rgb(200 155 60 / 5%),
+			0 10px 30px rgb(0 0 0 / 24%);
+	}
+
+	.hors-concours-summary {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		width: 100%;
+		grid-template-columns: auto 1fr auto auto;
+		align-items: center;
+		gap: 16px;
+		padding: 14px 18px;
+		color: #f0e6d2;
+		text-align: left;
+		transition: background-color 180ms ease;
+	}
+
+	.hors-concours-summary:hover {
+		background: rgb(200 155 60 / 7%);
+	}
+
+	.hors-concours-summary:focus-visible {
+		outline: 2px solid #e8c26b;
+		outline-offset: -3px;
+	}
+
+	.hors-concours-crown {
+		color: #d6b65f;
+		font-size: 27px;
+		line-height: 1;
+		text-shadow: 0 0 12px rgb(232 194 107 / 35%);
+	}
+
+	.hors-concours-player {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+	}
+
+	.hors-concours-player > span {
+		color: #bda36b;
+		font-size: 8px;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+	}
+
+	.hors-concours-player strong {
+		overflow: hidden;
+		font-family: 'beaufort';
+		font-size: 18px;
+		line-height: 1.2;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.hors-concours-player small {
+		color: rgb(240 230 210 / 55%);
+		font-size: 9px;
+	}
+
+	.lp-gap-badge {
+		display: flex;
+		border-left: 1px solid rgb(200 155 60 / 25%);
+		padding-left: 18px;
+		flex-direction: column;
+		text-align: right;
+	}
+
+	.lp-gap-badge strong {
+		color: #d6b65f;
+		font-family: 'beaufort';
+		font-size: 18px;
+		line-height: 1;
+	}
+
+	.lp-gap-badge span {
+		margin-top: 3px;
+		color: rgb(240 230 210 / 50%);
+		font-size: 7px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.hors-concours-toggle {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		color: rgb(240 230 210 / 55%);
+		font-size: 9px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.hors-concours-toggle span {
+		display: inline-block;
+		font-size: 15px;
+		transition: transform 180ms ease;
+	}
+
+	.hors-concours-toggle span.expanded {
+		transform: rotate(180deg);
+	}
+
+	.hors-concours-details {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 50px;
+		border-top: 1px solid rgb(200 155 60 / 18%);
+		padding: 28px 20px 34px;
+	}
+
+	@media (max-width: 640px) {
+		.hors-concours-stage {
+			margin-right: 16px;
+			margin-left: 16px;
+		}
+
+		.hors-concours-summary {
+			grid-template-columns: auto 1fr auto;
+			gap: 11px;
+			padding: 12px 14px;
+		}
+
+		.lp-gap-badge {
+			padding-left: 12px;
+		}
+
+		.hors-concours-toggle {
+			grid-column: 2 / 4;
+			justify-self: end;
+		}
+
+		.hors-concours-details {
+			flex-direction: column;
+			gap: 28px;
+		}
+	}
+
 	.most-wanted-stage {
 		position: relative;
 		overflow: hidden;
