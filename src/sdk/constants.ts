@@ -23,8 +23,8 @@ export const RANK_ORDER = ['UNRANKED', 'IV', 'III', 'II', 'I'];
 
 export const playersMock = [
 	{
-		gameName: 'The Last Dance',
-		tagLine: '2030',
+		gameName: 'little nenis',
+		tagLine: 'okay',
 		champion: 'talon',
 		imageName: 'nenemz',
 		wantedImage: '/criminosos/nenemz.png'
